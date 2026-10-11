@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">DescansaTEI</string>
+    <string name="title_activity_main">DescansaTEI</string>
+    <string name="package_name">com.descansatei.app</string>
+    <string name="custom_url_scheme">com.descansatei.app</string>
+</resources>

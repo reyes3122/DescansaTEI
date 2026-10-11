@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <link rel="stylesheet" href="diseño.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="icon" type="image/png" href="DescansaTEI-Logo-.png">
+
+    <title>DescansaTEI</title>
+</head>
+<body>
+    <header class="encabezado">
+        <div class="marca">
+            <img src="DescansaTEI-Logo-.png" alt="Logo de DescansaTEI" class="logo">
+            <h1>DescansaTEI</h1>
+        </div>
+        
+    </header>
+
+    <main>
+        <!-- ==================== VISTA INICIO ==================== -->
+        <div class="vista activa" id="vista-inicio">
+
+            <section class="panel-energia">
+                <h2 class="panel-titulo">Nivel de Energía</h2>
+
+                <div class="medidor medidor-estable" id="medidor-energia" style="--porcentaje: 80;"
+                     role="img" aria-label="Nivel de energía: 80%, estable">
+                    <svg viewBox="0 0 200 200" class="anillo">
+                        <circle class="anillo-fondo" cx="100" cy="100" r="90"></circle>
+                        <circle class="anillo-progreso" cx="100" cy="100" r="90"></circle>
+                    </svg>
+                    <div class="medidor-texto">
+                        <span class="valor" id="energia-valor">80%</span>
+                        <span class="estado" id="energia-estado">Estable</span>
+                    </div>
+                </div>
+
+                <p class="mensaje" id="energia-mensaje">
+                    Tu nivel de energía está adecuado. Mantén el ritmo y recuerda tomar pausas cortas.
+                </p>
+            </section>
+
+            <section class="panel-sueno">
+                <div class="sueno-icono">
+                    <i class="bi bi-moon-stars-fill"></i>
+                </div>
+
+                <div class="sueno-info">
+                    <span class="sueno-etiqueta">Último descanso</span>
+                    <p class="sueno-horas">Horas de sueño: 7h 30m</p>
+                    <span class="sueno-estado">
+                        <span class="punto"></span>
+                        Óptimo
+                    </span>
+                </div>
+            </section>
+
+            <section class="panel-evaluacion">
+                <h2 class="evaluacion-titulo">Evaluación Rápida</h2>
+                <p class="evaluacion-texto">
+                    Mide tu nivel de alerta actual en menos de 2 minutos.
+                </p>
+
+                <button class="boton-prueba" type="button">
+                    <i class="bi bi-activity"></i>
+                    Realizar Prueba de Fatiga
+                </button>
+            </section>
+
+        </div>
+
+        <!-- ==================== VISTA REGISTRO ==================== -->
+        <div class="vista" id="vista-registro">
+            <h2 class="vista-titulo">Registro Diario</h2>
+
+            <!-- Panel 1: Horas de sueño -->
+            <section class="panel-registro">
+                <h3 class="registro-titulo">
+                    <i class="bi bi-moon"></i>
+                    Horas de sueño
+                </h3>
+
+                <div class="contador">
+                    <button type="button" class="contador-boton" id="sueno-menos" aria-label="Restar 30 minutos">
+                        <i class="bi bi-dash-lg"></i>
+                    </button>
+
+                    <div class="contador-centro">
+                        <span class="contador-valor" id="sueno-valor" aria-live="polite">7,5</span>
+                        <span class="contador-etiqueta">Horas anoche</span>
+                    </div>
+
+                    <button type="button" class="contador-boton" id="sueno-mas" aria-label="Sumar 30 minutos">
+                        <i class="bi bi-plus-lg"></i>
+                    </button>
+                </div>
+            </section>
+
+            <!-- Panel 2: Bloques de estudio/trabajo -->
+            <section class="panel-registro">
+                <h3 class="registro-titulo">
+                    <i class="bi bi-stopwatch"></i>
+                    Bloques de estudio/trabajo
+                </h3>
+
+                <div class="chips" role="radiogroup" aria-label="Bloques de estudio o trabajo">
+                    <button type="button" class="chip" role="radio" aria-checked="false" data-bloque="1-2">1 - 2 hr</button>
+                    <button type="button" class="chip" role="radio" aria-checked="false" data-bloque="3-4">3 - 4 hr</button>
+                    <button type="button" class="chip" role="radio" aria-checked="false" data-bloque="5-6">5 - 6 hr</button>
+                    <button type="button" class="chip" role="radio" aria-checked="false" data-bloque="7+">7+ hr</button>
+                </div>
+            </section>
+
+            <!-- Panel 3: Nivel de energía (automático, según las horas de sueño) -->
+            <section class="panel-registro">
+                <h3 class="registro-titulo">
+                    <i class="bi bi-battery-charging"></i>
+                    Nivel de energía
+                </h3>
+
+                <div class="energia" role="img" aria-label="Nivel de energía estimado según tus horas de sueño">
+                    <div class="energia-opcion" data-nivel="1" style="--nivel: 15%; --color: #ff7a70;">
+                        <span class="bateria"><span class="bateria-relleno"></span></span>
+                    </div>
+                    <div class="energia-opcion" data-nivel="2" style="--nivel: 35%; --color: #9aa0c8;">
+                        <span class="bateria"><span class="bateria-relleno"></span></span>
+                    </div>
+                    <div class="energia-opcion" data-nivel="3" style="--nivel: 55%; --color: #8a7bf0;">
+                        <span class="bateria"><span class="bateria-relleno"></span></span>
+                    </div>
+                    <div class="energia-opcion" data-nivel="4" style="--nivel: 75%; --color: #c9a6ff;">
+                        <span class="bateria"><span class="bateria-relleno"></span></span>
+                    </div>
+                    <div class="energia-opcion" data-nivel="5" style="--nivel: 100%; --color: #7b9bff;">
+                        <span class="bateria"><span class="bateria-relleno"></span></span>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+
+        <!-- ==================== VISTA EVALUACIÓN ==================== -->
+        <div class="vista" id="vista-evaluacion">
+            <h2 class="vista-titulo">Evaluación</h2>
+
+            <section class="panel-evaluacion-diaria">
+                <h3 class="eval-titulo">Evaluación Diaria</h3>
+                <p class="eval-texto">
+                    Mide tu nivel de fatiga actual mediante pruebas cognitivas breves
+                    para asegurar un entorno de trabajo seguro.
+                </p>
+
+                <!-- Prueba 1: Tiempo de reacción (con el juego de ovejas) -->
+                <article class="prueba">
+                    <div class="prueba-cabecera">
+                        <div class="prueba-icono">
+                            <i class="bi bi-stopwatch"></i>
+                        </div>
+                        <span class="prueba-duracion">
+                            <i class="bi bi-clock"></i>
+                            2 min
+                        </span>
+                    </div>
+
+                    <h4 class="prueba-titulo">Tiempo de Reacción</h4>
+                    <p class="prueba-descripcion">
+                        Responde rápidamente a estímulos visuales para evaluar alerta motora.
+                    </p>
+
+                    <div class="prueba-pie">
+                        <div class="prueba-ultima">
+                            <span class="prueba-ultima-etiqueta">Última prueba</span>
+                            <span class="prueba-ultima-estado" id="ultima-ovejas">
+                                Normal
+                                <span class="punto"></span>
+                            </span>
+                        </div>
+                        <button type="button" class="prueba-boton" id="iniciar-ovejas">Iniciar</button>
+                    </div>
+                </article>
+
+                <!-- Prueba 2: Atención visual (juego: Recuerda la secuencia) -->
+                <article class="prueba">
+                    <div class="prueba-cabecera">
+                        <div class="prueba-icono">
+                            <i class="bi bi-eye"></i>
+                        </div>
+                        <span class="prueba-duracion">
+                            <i class="bi bi-clock"></i>
+                            2 min
+                        </span>
+                    </div>
+
+                    <h4 class="prueba-titulo">Atención Visual</h4>
+                    <p class="prueba-descripcion">
+                        Sigue la secuencia de colores para evaluar tu atención y memoria inmediata.
+                    </p>
+
+                    <div class="prueba-pie">
+                        <div class="prueba-ultima">
+                            <span class="prueba-ultima-etiqueta">Última prueba</span>
+                            <span class="prueba-ultima-estado" id="ultima-secuencia">Sin datos</span>
+                        </div>
+                        <button type="button" class="prueba-boton" id="iniciar-secuencia">Iniciar</button>
+                    </div>
+                </article>
+
+                <!-- Prueba 3: Memoria corta (juego: Memoriza las frutas) -->
+                <article class="prueba">
+                    <div class="prueba-cabecera">
+                        <div class="prueba-icono">
+                            <i class="bi bi-lightbulb"></i>
+                        </div>
+                        <span class="prueba-duracion">
+                            <i class="bi bi-clock"></i>
+                            2 min
+                        </span>
+                    </div>
+
+                    <h4 class="prueba-titulo">Memoria Corta</h4>
+                    <p class="prueba-descripcion">
+                        Memoriza la posición de las frutas para evaluar tu memoria visual a corto plazo.
+                    </p>
+
+                    <div class="prueba-pie">
+                        <div class="prueba-ultima">
+                            <span class="prueba-ultima-etiqueta">Última prueba</span>
+                            <span class="prueba-ultima-estado" id="ultima-frutas">Sin datos</span>
+                        </div>
+                        <button type="button" class="prueba-boton" id="iniciar-memoria">Iniciar</button>
+                    </div>
+                </article>
+
+            </section>
+        </div> <!-- cierra vista-evaluacion -->
+
+        <!-- ==================== VISTA ESTADÍSTICAS ==================== -->
+        <div class="vista" id="vista-estadisticas">
+            <h2 class="vista-titulo">Estadísticas</h2>
+
+            <section class="panel-estadisticas">
+                <!-- Promedio de sueño -->
+                <article class="stat-tarjeta">
+                    <div class="stat-info">
+                        <span class="stat-etiqueta">Promedio de sueño</span>
+                        <span class="stat-valor" id="stat-promedio" aria-live="polite">7,5h</span>
+                    </div>
+                    <div class="stat-icono stat-icono-sueno">
+                        <i class="bi bi-moon-fill"></i>
+                    </div>
+                </article>
+
+                <!-- Tendencia -->
+                <article class="stat-tarjeta" id="stat-tarjeta-tendencia">
+                    <div class="stat-info">
+                        <span class="stat-etiqueta">Tendencia</span>
+                        <span class="stat-valor stat-valor-tendencia" id="stat-tendencia" aria-live="polite">Estable</span>
+                    </div>
+                    <div class="stat-icono stat-icono-tendencia">
+                        <i class="bi bi-arrow-right" id="stat-tendencia-icono"></i>
+                    </div>
+                </article>
+            </section>
+
+            <!-------------------INICIO From Uiverse.IOO ---------------->
+<div id="ghost">
+  <div id="red">
+    <div id="pupil"></div>
+    <div id="pupil1"></div>
+    <div id="eye"></div>
+    <div id="eye1"></div>
+    <div id="top0"></div>
+    <div id="top1"></div>
+    <div id="top2"></div>
+    <div id="top3"></div>
+    <div id="top4"></div>
+    <div id="st0"></div>
+    <div id="st1"></div>
+    <div id="st2"></div>
+    <div id="st3"></div>
+    <div id="st4"></div>
+    <div id="st5"></div>
+    <div id="an1"></div>
+    <div id="an2"></div>
+    <div id="an3"></div>
+    <div id="an4"></div>
+    <div id="an5"></div>
+    <div id="an6"></div>
+    <div id="an7"></div>
+    <div id="an8"></div>
+    <div id="an9"></div>
+    <div id="an10"></div>
+    <div id="an11"></div>
+    <div id="an12"></div>
+    <div id="an13"></div>
+    <div id="an14"></div>
+    <div id="an15"></div>
+    <div id="an16"></div>
+    <div id="an17"></div>
+    <div id="an18"></div>
+  </div>
+  <div id="shadow"></div>
+</div>
+            <!------------------- FIN Uiverse.IOO ---------------->
+        </div> <!-- cierra vista-estadisticas -->
+
+        <!-- ==================== VISTA ALERTAS ==================== -->
+        <div class="vista" id="vista-alertas">
+            <h2 class="vista-titulo">Alertas</h2>
+
+            <section class="panel-alertas">
+                <article class="alerta-tarjeta alerta-baja" id="alerta-sueno" aria-live="polite">
+                    <div class="alerta-cabecera">
+                        <div class="alerta-icono">
+                            <i class="bi bi-exclamation-triangle" id="alerta-icono"></i>
+                        </div>
+                        <h3 class="alerta-titulo" id="alerta-titulo">Fatiga alta detectada</h3>
+                        <span class="alerta-tiempo">Ahora</span>
+                    </div>
+                    <p class="alerta-mensaje" id="alerta-mensaje">
+                        Tus niveles de sueño indican un riesgo alto de fatiga. Se recomienda un descanso inmediato.
+                    </p>
+                </article>
+
+                <!----------------------- INICIO From Uiverse.io -------------------->
+
+<div class="loader">
+  <svg
+    class="legl"
+    version="1.1"
+    xmlns="http://www.w3.org/2000/svg"
+    width="20.69332"
+    height="68.19944"
+    viewBox="0,0,20.69332,68.19944"
+  >
+    <g transform="translate(-201.44063,-235.75466)">
+      <g stroke-miterlimit="10">
+        <path d="" fill="#ffffff" stroke="none" stroke-width="0.5"></path>
+        <path
+          d=""
+          fill-opacity="0.26667"
+          fill="#97affd"
+          stroke-opacity="0.48627"
+          stroke="#ffffff"
+          stroke-width="0"
+        ></path>
+        <path
+          d="M218.11971,301.20087c-2.20708,1.73229 -4.41416,0 -4.41416,0l-1.43017,-1.1437c-1.42954,-1.40829 -3.04351,-2.54728 -4.56954,-3.87927c-0.95183,-0.8308 -2.29837,-1.49883 -2.7652,-2.55433c-0.42378,-0.95815 0.14432,-2.02654 0.29355,-3.03399c0.41251,-2.78499 1.82164,-5.43386 2.41472,-8.22683c1.25895,-4.44509 2.73863,-8.98683 3.15318,-13.54796c0.22615,-2.4883 -0.21672,-5.0155 -0.00278,-7.50605c0.30636,-3.56649 1.24602,-7.10406 1.59992,-10.6738c0.29105,-2.93579 -0.00785,-5.9806 -0.00785,-8.93046c0,0 0,-2.44982 3.12129,-2.44982c3.12129,0 3.12129,2.44982 3.12129,2.44982c0,3.06839 0.28868,6.22201 -0.00786,9.27779c-0.34637,3.56935 -1.30115,7.10906 -1.59992,10.6738c-0.2103,2.50918 0.22586,5.05326 -0.00278,7.56284c-0.43159,4.7371 -1.94029,9.46317 -3.24651,14.07835c-0.47439,2.23403 -1.29927,4.31705 -2.05805,6.47156c-0.18628,0.52896 -0.1402,1.0974 -0.327,1.62624c-0.09463,0.26791 -0.64731,0.47816 -0.50641,0.73323c0.19122,0.34617 0.86423,0.3445 1.2346,0.58502c1.88637,1.22503 3.50777,2.79494 5.03,4.28305l0.96971,0.73991c0,0 2.20708,1.73229 0,3.46457z"
+          fill="none"
+          stroke="#191e2e"
+          stroke-width="7"
+        ></path>
+      </g>
+    </g>
+  </svg>
+
+  <svg
+    class="legr"
+    version="1.1"
+    xmlns="http://www.w3.org/2000/svg"
+    width="41.02537"
+    height="64.85502"
+    viewBox="0,0,41.02537,64.85502"
+  >
+    <g transform="translate(-241.54137,-218.44347)">
+      <g stroke-miterlimit="10">
+        <path
+          d="M279.06674,279.42662c-2.27967,1.98991 -6.08116,0.58804 -6.08116,0.58804l-2.47264,-0.92915c-2.58799,-1.18826 -5.31176,-2.08831 -7.99917,-3.18902c-1.67622,-0.68654 -3.82471,-1.16116 -4.93147,-2.13229c-1.00468,-0.88156 -0.69132,-2.00318 -0.92827,-3.00935c-0.65501,-2.78142 0.12275,-5.56236 -0.287,-8.37565c-0.2181,-4.51941 -0.17458,-9.16283 -1.60696,-13.68334c-0.78143,-2.46614 -2.50162,-4.88125 -3.30086,-7.34796c-1.14452,-3.53236 -1.40387,-7.12078 -2.48433,-10.66266c-0.88858,-2.91287 -2.63779,-5.85389 -3.93351,-8.74177c0,0 -1.07608,-2.39835 3.22395,-2.81415c4.30003,-0.41581 2.41605,1.98254 2.41605,1.98254c1.34779,3.00392 3.13072,6.05282 4.06444,9.0839c1.09065,3.54049 1.33011,7.13302 2.48433,10.66266c0.81245,2.48448 2.5308,4.917 3.31813,7.40431c1.48619,4.69506 1.48366,9.52281 1.71137,14.21503c0.32776,2.25028 0.10631,4.39942 0.00736,6.60975c-0.02429,0.54266 0.28888,1.09302 0.26382,1.63563c-0.01269,0.27488 -0.68173,0.55435 -0.37558,0.78529c0.41549,0.31342 1.34191,0.22213 1.95781,0.40826c3.13684,0.94799 6.06014,2.26892 8.81088,3.52298l1.66093,0.59519c0,0 6.76155,1.40187 4.48187,3.39177z"
+          fill="none"
+          stroke="#000000"
+          stroke-width="7"
+        ></path>
+        <path d="" fill="#ffffff" stroke="none" stroke-width="0.5"></path>
+        <path
+          d=""
+          fill-opacity="0.26667"
+          fill="#97affd"
+          stroke-opacity="0.48627"
+          stroke="#ffffff"
+          stroke-width="0"
+        ></path>
+      </g>
+    </g>
+  </svg>
+
+  <div class="bod">
+    <svg
+      version="1.1"
+      xmlns="http://www.w3.org/2000/svg"
+      width="144.10576"
+      height="144.91623"
+      viewBox="0,0,144.10576,144.91623"
+    >
+      <g transform="translate(-164.41679,-112.94712)">
+        <g stroke-miterlimit="10">
+          <path
+            d="M166.9168,184.02633c0,-36.49454 35.0206,-66.07921 72.05288,-66.07921c37.03228,0 67.05288,29.58467 67.05288,66.07921c0,6.94489 -1.08716,13.63956 -3.10292,19.92772c-2.71464,8.46831 -7.1134,16.19939 -12.809,22.81158c-2.31017,2.68194 -7.54471,12.91599 -7.54471,12.91599c0,0 -5.46714,-1.18309 -8.44434,0.6266c-3.86867,2.35159 -10.95356,10.86714 -10.95356,10.86714c0,0 -6.96906,-3.20396 -9.87477,-2.58085c-2.64748,0.56773 -6.72538,5.77072 -6.72538,5.77072c0,0 -5.5023,-4.25969 -7.5982,-4.25969c-3.08622,0 -9.09924,3.48259 -9.09924,3.48259c0,0 -6.0782,-5.11244 -9.00348,-5.91884c-4.26461,-1.17561 -12.23343,0.75049 -12.23343,0.75049c0,0 -5.18164,-8.26065 -7.60688,-9.90388c-3.50443,-2.37445 -8.8271,-3.95414 -8.8271,-3.95414c0,0 -5.33472,-8.81718 -7.27019,-11.40895c-4.81099,-6.44239 -13.46422,-9.83437 -15.65729,-17.76175c-1.53558,-5.55073 -2.35527,-21.36472 -2.35527,-21.36472z"
+            fill="#191e2e"
+            stroke="#000000"
+            stroke-width="5"
+            stroke-linecap="butt"
+          ></path>
+          <path
+            d="M167.94713,180c0,-37.03228 35.0206,-67.05288 72.05288,-67.05288c37.03228,0 67.05288,30.0206 67.05288,67.05288c0,7.04722 -1.08716,13.84053 -3.10292,20.22135c-2.71464,8.59309 -7.1134,16.43809 -12.809,23.14771c-2.31017,2.72146 -7.54471,13.1063 -7.54471,13.1063c0,0 -5.46714,-1.20052 -8.44434,0.63584c-3.86867,2.38624 -10.95356,11.02726 -10.95356,11.02726c0,0 -6.96906,-3.25117 -9.87477,-2.61888c-2.64748,0.5761 -6.72538,5.85575 -6.72538,5.85575c0,0 -5.5023,-4.32246 -7.5982,-4.32246c-3.08622,0 -9.09924,3.5339 -9.09924,3.5339c0,0 -6.0782,-5.18777 -9.00348,-6.00605c-4.26461,-1.19293 -12.23343,0.76155 -12.23343,0.76155c0,0 -5.18164,-8.38236 -7.60688,-10.04981c-3.50443,-2.40943 -8.8271,-4.0124 -8.8271,-4.0124c0,0 -5.33472,-8.9471 -7.27019,-11.57706c-4.81099,-6.53732 -13.46422,-9.97928 -15.65729,-18.02347c-1.53558,-5.63252 -2.35527,-21.67953 -2.35527,-21.67953z"
+            fill="#191e2e"
+            stroke="none"
+            stroke-width="0"
+            stroke-linecap="butt"
+          ></path>
+          <path
+            d=""
+            fill="#ffffff"
+            stroke="none"
+            stroke-width="0.5"
+            stroke-linecap="butt"
+          ></path>
+          <path
+            d=""
+            fill-opacity="0.26667"
+            fill="#97affd"
+            stroke-opacity="0.48627"
+            stroke="#ffffff"
+            stroke-width="0"
+            stroke-linecap="butt"
+          ></path>
+          <path
+            d="M216.22445,188.06994c0,0 1.02834,11.73245 -3.62335,21.11235c-4.65169,9.3799 -13.06183,10.03776 -13.06183,10.03776c0,0 7.0703,-3.03121 10.89231,-10.7381c4.34839,-8.76831 5.79288,-20.41201 5.79288,-20.41201z"
+            fill="none"
+            stroke="#2f3a50"
+            stroke-width="3"
+            stroke-linecap="round"
+          ></path>
+        </g>
+      </g>
+    </svg>
+
+    <svg
+      class="head"
+      version="1.1"
+      xmlns="http://www.w3.org/2000/svg"
+      width="115.68559"
+      height="88.29441"
+      viewBox="0,0,115.68559,88.29441"
+    >
+      <g transform="translate(-191.87889,-75.62023)">
+        <g stroke-miterlimit="10">
+          <path
+            d=""
+            fill="#ffffff"
+            stroke="none"
+            stroke-width="0.5"
+            stroke-linecap="butt"
+          ></path>
+          <path
+            d="M195.12889,128.77752c0,-26.96048 21.33334,-48.81626 47.64934,-48.81626c26.316,0 47.64935,21.85578 47.64935,48.81626c0,0.60102 -9.22352,20.49284 -9.22352,20.49284l-7.75885,0.35623l-7.59417,6.15039l-8.64295,-1.74822l-11.70703,6.06119l-6.38599,-4.79382l-6.45999,2.36133l-7.01451,-7.38888l-8.11916,1.29382l-6.19237,-6.07265l-7.6263,-1.37795l-4.19835,-7.87062l-4.24236,-4.16907c0,0 -0.13314,-2.0999 -0.13314,-3.29458z"
+            fill="none"
+            stroke="#2f3a50"
+            stroke-width="6"
+            stroke-linecap="butt"
+          ></path>
+          <path
+            d="M195.31785,124.43649c0,-26.96048 21.33334,-48.81626 47.64934,-48.81626c26.316,0 47.64935,21.85578 47.64935,48.81626c0,1.03481 -0.08666,2.8866 -0.08666,2.8866c0,0 16.8538,15.99287 16.21847,17.23929c-0.66726,1.30905 -23.05667,-4.14265 -23.05667,-4.14265l-2.29866,4.5096l-7.75885,0.35623l-7.59417,6.15039l-8.64295,-1.74822l-11.70703,6.06119l-6.38599,-4.79382l-6.45999,2.36133l-7.01451,-7.38888l-8.11916,1.29382l-6.19237,-6.07265l-7.6263,-1.37795l-4.19835,-7.87062l-4.24236,-4.16907c0,0 -0.13314,-2.0999 -0.13314,-3.29458z"
+            fill="#191e2e"
+            stroke-opacity="0.48627"
+            stroke="#ffffff"
+            stroke-width="0"
+            stroke-linecap="butt"
+          ></path>
+          <path
+            d="M271.10348,122.46768l10.06374,-3.28166l24.06547,24.28424"
+            fill="none"
+            stroke="#2f3a50"
+            stroke-width="6"
+            stroke-linecap="round"
+          ></path>
+          <path
+            d="M306.56448,144.85764l-41.62024,-8.16845l2.44004,-7.87698"
+            fill="none"
+            stroke="#000000"
+            stroke-width="3.5"
+            stroke-linecap="round"
+          ></path>
+          <path
+            d="M276.02738,115.72434c-0.66448,-4.64715 2.56411,-8.95308 7.21127,-9.61756c4.64715,-0.66448 8.95309,2.56411 9.61757,7.21126c0.46467,3.24972 -1.94776,8.02206 -5.96624,9.09336c-2.11289,-1.73012 -5.08673,-5.03426 -5.08673,-5.03426c0,0 -4.12095,1.16329 -4.60481,1.54229c-0.16433,-0.04891 -0.62732,-0.38126 -0.72803,-0.61269c-0.30602,-0.70328 -0.36302,-2.02286 -0.44303,-2.58239z"
+            fill="#ffffff"
+            stroke="none"
+            stroke-width="0.5"
+            stroke-linecap="butt"
+          ></path>
+          <path
+            d="M242.49281,125.6424c0,-4.69442 3.80558,-8.5 8.5,-8.5c4.69442,0 8.5,3.80558 8.5,8.5c0,4.69442 -3.80558,8.5 -8.5,8.5c-4.69442,0 -8.5,-3.80558 -8.5,-8.5z"
+            fill="#ffffff"
+            stroke="none"
+            stroke-width="0.5"
+            stroke-linecap="butt"
+          ></path>
+          <path
+            d=""
+            fill-opacity="0.26667"
+            fill="#97affd"
+            stroke-opacity="0.48627"
+            stroke="#ffffff"
+            stroke-width="0"
+            stroke-linecap="butt"
+          ></path>
+        </g>
+      </g>
+    </svg>
+  </div>
+
+  <svg
+    id="gnd"
+    version="1.1"
+    xmlns="http://www.w3.org/2000/svg"
+    width="475"
+    height="530"
+    viewBox="0,0,163.40011,85.20095"
+  >
+    <g transform="translate(-176.25,-207.64957)">
+      <g
+        stroke="#000000"
+        stroke-width="2.5"
+        stroke-linecap="round"
+        stroke-miterlimit="10"
+      >
+        <path
+          d="M295.5,273.1829c0,0 -57.38915,6.69521 -76.94095,-9.01465c-13.65063,-10.50609 15.70098,-20.69467 -2.5451,-19.94465c-30.31027,2.05753 -38.51396,-26.84135 -38.51396,-26.84135c0,0 6.50084,13.30023 18.93224,19.17888c9.53286,4.50796 26.23632,-1.02541 32.09529,4.95137c3.62417,3.69704 2.8012,6.33005 0.66517,8.49452c-3.79415,3.84467 -11.7312,6.21103 -6.24682,10.43645c22.01082,16.95812 72.55412,12.73944 72.55412,12.73944z"
+          fill="#000000"
+        ></path>
+        <path
+          d="M338.92138,217.76285c0,0 -17.49626,12.55408 -45.36424,10.00353c-8.39872,-0.76867 -17.29557,-6.23066 -17.29557,-6.23066c0,0 3.06461,-2.23972 15.41857,0.72484c26.30467,6.31228 47.24124,-4.49771 47.24124,-4.49771z"
+          fill="#000000"
+        ></path>
+        <path
+          d="M209.14443,223.00182l1.34223,15.4356l-10.0667,-15.4356"
+          fill="none"
+        ></path>
+        <path
+          d="M198.20391,230.41806l12.95386,7.34824l6.71113,-12.08004"
+          fill="none"
+        ></path>
+        <path d="M211.19621,238.53825l8.5262,-6.09014" fill="none"></path>
+        <path
+          d="M317.57068,215.80173l5.27812,6.49615l0.40601,-13.39831"
+          fill="none"
+        ></path>
+        <path d="M323.66082,222.70389l6.09014,-9.33822" fill="none"></path>
+      </g>
+    </g>
+  </svg>
+</div>
+
+                <!----------------------- FIN Uiverse.io -------------------->
+            </section>
+        </div> <!-- cierra vista-alertas -->
+    </main>
+
+    <!-- BARRA DE NAVEGACIÓN INFERIOR -->
+    <nav class="barra-nav" aria-label="Navegación principal">
+        <button class="nav-item activo" data-vista="inicio">
+            <i class="bi bi-house-fill"></i>
+            <span>Inicio</span>
+        </button>
+        <button class="nav-item" data-vista="registro">
+            <i class="bi bi-journal-text"></i>
+            <span>Registro</span>
+        </button>
+        <button class="nav-item" data-vista="evaluacion">
+            <i class="bi bi-activity"></i>
+            <span>Evaluación</span>
+        </button>
+        <button class="nav-item" data-vista="estadisticas">
+            <i class="bi bi-bar-chart-fill"></i>
+            <span>Estadísticas</span>
+        </button>
+        <button class="nav-item" data-vista="alertas">
+            <i class="bi bi-bell-fill"></i>
+            <span>Alertas</span>
+        </button>
+    </nav>
+
+    <!-- ==================== JUEGO: CONTEO DE OVEJAS ==================== -->
+    <!-- Va fuera de <main> a propósito: así el hover de las tarjetas no afecta al overlay -->
+    <div class="juego-overlay" id="juego-ovejas" role="dialog" aria-modal="true" aria-labelledby="ovejas-titulo" hidden>
+        <div class="juego-caja">
+            <button type="button" class="juego-cerrar" id="ovejas-salir" aria-label="Salir del juego">
+                <i class="bi bi-x-lg"></i>
+            </button>
+
+            <!-- Pantalla 1: instrucciones -->
+            <section id="ovejas-instrucciones">
+                <div class="juego-emoji" aria-hidden="true">🐑</div>
+                <h3 class="juego-titulo" id="ovejas-titulo">Conteo de Ovejas</h3>
+                <p class="juego-texto">
+                    Pasarán varias ovejas por la pantalla, una a una. Cuéntalas y al final, dinos cuántas viste.
+                </p>
+                <button type="button" class="prueba-boton juego-boton" id="ovejas-comenzar">Comenzar</button>
+            </section>
+
+            <!-- Pantalla 2: las ovejas pasan -->
+            <section id="ovejas-escena" hidden>
+                <h3 class="juego-titulo">Cuenta las ovejas…</h3>
+                <div class="ovejas-campo" id="ovejas-campo"></div>
+                <p class="juego-texto">No pierdas la cuenta.</p>
+            </section>
+
+            <!-- Pantalla 3: respuesta -->
+            <section id="ovejas-respuesta" hidden>
+                <h3 class="juego-titulo">¿Cuántas ovejas viste?</h3>
+                <div class="contador juego-contador">
+                    <button type="button" class="contador-boton" id="ovejas-menos" aria-label="Restar una oveja">
+                        <i class="bi bi-dash-lg"></i>
+                    </button>
+                    <div class="contador-centro">
+                        <span class="contador-valor" id="ovejas-valor" aria-live="polite">0</span>
+                        <span class="contador-etiqueta">Ovejas</span>
+                    </div>
+                    <button type="button" class="contador-boton" id="ovejas-mas" aria-label="Sumar una oveja">
+                        <i class="bi bi-plus-lg"></i>
+                    </button>
+                </div>
+                <button type="button" class="prueba-boton juego-boton" id="ovejas-confirmar">Confirmar</button>
+            </section>
+
+            <!-- Pantalla 4: resultado -->
+            <section id="ovejas-resultado" hidden>
+                <h3 class="juego-titulo" id="ovejas-res-titulo">Resultado</h3>
+                <p class="juego-texto" id="ovejas-res-datos"></p>
+                <p class="juego-texto" id="ovejas-res-mensaje"></p>
+                <p class="juego-nota">Estimación orientativa, no es un diagnóstico médico.</p>
+                <button type="button" class="prueba-boton juego-boton" id="ovejas-cerrar">Cerrar</button>
+            </section>
+        </div>
+    </div>
+
+    <!-- ==================== JUEGO: RECUERDA LA SECUENCIA ==================== -->
+    <div class="juego-overlay" id="juego-secuencia" role="dialog" aria-modal="true" aria-labelledby="sec-titulo" hidden>
+        <div class="juego-caja">
+            <button type="button" class="juego-cerrar" id="sec-salir" aria-label="Salir del juego">
+                <i class="bi bi-x-lg"></i>
+            </button>
+
+            <!-- Pantalla 1: instrucciones -->
+            <section id="sec-instrucciones">
+                <div class="juego-emoji" aria-hidden="true">🎨</div>
+                <h3 class="juego-titulo" id="sec-titulo">Recuerda la secuencia</h3>
+                <p class="juego-texto">
+                    Verás una serie de colores que se iluminan. Cuando termine, repítela en el mismo orden.
+                    Cada nivel agrega un color más. Tienes 3 vidas.
+                </p>
+                <button type="button" class="prueba-boton juego-boton" id="sec-comenzar">Comenzar</button>
+            </section>
+
+            <!-- Pantalla 2: juego -->
+            <section id="sec-juego" hidden>
+                <div class="sec-info">
+                    <span>Nivel <strong id="sec-nivel">1</strong></span>
+                    <span class="sec-vidas" id="sec-vidas" aria-label="Vidas restantes">♥ ♥ ♥</span>
+                </div>
+                <p class="juego-texto sec-estado" id="sec-estado" aria-live="polite">Mira la secuencia…</p>
+
+                <div class="sec-tablero">
+                    <button type="button" class="sec-boton" data-color="0" style="--c: #ff7a70;" aria-label="Rojo, triángulo">▲</button>
+                    <button type="button" class="sec-boton" data-color="1" style="--c: #7b9bff;" aria-label="Azul, círculo">●</button>
+                    <button type="button" class="sec-boton" data-color="2" style="--c: #6fd6a0;" aria-label="Verde, cuadrado">■</button>
+                    <button type="button" class="sec-boton" data-color="3" style="--c: #f5d06f;" aria-label="Amarillo, rombo">◆</button>
+                </div>
+            </section>
+
+            <!-- Pantalla 3: resultado -->
+            <section id="sec-resultado" hidden>
+                <h3 class="juego-titulo" id="sec-res-titulo">Resultado</h3>
+                <p class="juego-texto" id="sec-res-datos"></p>
+                <p class="juego-texto" id="sec-res-mensaje"></p>
+                <p class="juego-nota">Estimación orientativa, no es un diagnóstico médico.</p>
+                <button type="button" class="prueba-boton juego-boton" id="sec-cerrar">Cerrar</button>
+            </section>
+        </div>
+    </div>
+
+    <!-- ==================== JUEGO: MEMORIZA LAS FRUTAS ==================== -->
+    <div class="juego-overlay" id="juego-frutas" role="dialog" aria-modal="true" aria-labelledby="fr-titulo" hidden>
+        <div class="juego-caja">
+            <button type="button" class="juego-cerrar" id="fr-salir" aria-label="Salir del juego">
+                <i class="bi bi-x-lg"></i>
+            </button>
+
+            <!-- Pantalla 1: instrucciones -->
+            <section id="fr-instrucciones">
+                <div class="juego-emoji" aria-hidden="true">🍓</div>
+                <h3 class="juego-titulo" id="fr-titulo">Memoriza las frutas</h3>
+                <p class="juego-texto" id="fr-texto-instrucciones"></p>
+                <button type="button" class="prueba-boton juego-boton" id="fr-comenzar">Comenzar</button>
+            </section>
+
+            <!-- Pantalla 2: memorizar -->
+            <section id="fr-memorizar" hidden>
+                <div class="sec-info">
+                    <span>Ronda <strong id="fr-ronda-m">1</strong></span>
+                </div>
+                <p class="juego-texto">Memoriza la posición de cada fruta.</p>
+                <div class="fr-fila" id="fr-fila"></div>
+                <div class="fr-barra"><div class="fr-barra-relleno" id="fr-barra"></div></div>
+            </section>
+
+            <!-- Pantalla 3: pregunta -->
+            <section id="fr-pregunta" hidden>
+                <div class="sec-info">
+                    <span>Ronda <strong id="fr-ronda-p">1</strong></span>
+                </div>
+                <p class="juego-titulo" id="fr-pregunta-texto" aria-live="polite"></p>
+                    <div class="fr-opciones" id="fr-opciones">
+                    <button type="button" class="fr-opcion" data-pos="0">1</button>
+                    <button type="button" class="fr-opcion" data-pos="1">2</button>
+                    <button type="button" class="fr-opcion" data-pos="2">3</button>
+                    <button type="button" class="fr-opcion" data-pos="3">4</button>
+                </div>
+                <p class="juego-texto fr-feedback" id="fr-feedback" aria-live="polite"></p>
+            </section>
+
+            <!-- Pantalla 4: resultado -->
+            <section id="fr-resultado" hidden>
+                <h3 class="juego-titulo" id="fr-res-titulo">Resultado</h3>
+                <p class="juego-texto" id="fr-res-datos"></p>
+                <p class="juego-texto" id="fr-res-mensaje"></p>
+                <p class="juego-nota">Estimación orientativa, no es un diagnóstico médico.</p>
+                <button type="button" class="prueba-boton juego-boton" id="fr-cerrar">Cerrar</button>
+            </section>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

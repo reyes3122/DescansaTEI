@@ -38,19 +38,7 @@ body {
     color: #b9c0ff;          /* azul lavanda */
 }
 
-.ajustes {
-    background: none;
-    border: none;
-    color: #c9cdf5;
-    font-size: 1.6rem;
-    cursor: pointer;
-    transition: transform 0.3s, color 0.3s;
-}
 
-.ajustes:hover {
-    color: #ffffff;
-    transform: rotate(45deg);
-}
 
 .panel-energia {
     max-width: 360px;
@@ -1431,4 +1419,107 @@ main {
 .sec-boton:focus-visible {
     outline: 2px solid #ffffff;
     outline-offset: 3px;
+}
+
+/* ---------------- JUEGO: MEMORIZA LAS FRUTAS (4 frutas) ---------------- */
+.fr-fila {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);   /* antes: 6 */
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.fr-celda {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    padding: 14px 0;                         /* un poco más grande */
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    font-size: 2.2rem;                       /* antes: 1.7rem */
+    line-height: 1;
+}
+
+.fr-celda span {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #9aa0c8;
+}
+
+/* Barra que se vacía durante el tiempo de memorización */
+.fr-barra {
+    height: 8px;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 999px;
+}
+
+.fr-barra-relleno {
+    height: 100%;
+    width: 100%;
+    background: linear-gradient(90deg, #7b83f0, #8a3fd1);
+    transform-origin: left;
+}
+
+.fr-barra-relleno.corriendo {
+    animation: fr-vaciar var(--duracion, 5s) linear forwards;
+}
+
+@keyframes fr-vaciar {
+    from { transform: scaleX(1); }
+    to   { transform: scaleX(0); }
+}
+
+.fr-opciones {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);   /* antes: 3 */
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.fr-opcion {
+    padding: 18px 0;
+    background: rgba(123, 131, 240, 0.15);
+    border: 2px solid rgba(123, 131, 240, 0.5);
+    border-radius: 14px;
+    color: #e6e9ff;
+    font-family: inherit;
+    font-size: 1.5rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s, border-color 0.15s, transform 0.12s;
+}
+
+.fr-opcion:hover:not(:disabled) {
+    background: rgba(123, 131, 240, 0.3);
+}
+
+.fr-opcion:active:not(:disabled) {
+    transform: scale(0.96);
+}
+
+.fr-opcion:disabled {
+    cursor: default;
+}
+
+.fr-opcion.correcta {
+    background: rgba(111, 214, 160, 0.3);
+    border-color: #6fd6a0;
+}
+
+.fr-opcion.incorrecta {
+    background: rgba(255, 122, 112, 0.3);
+    border-color: #ff7a70;
+}
+
+.fr-opcion:focus-visible {
+    outline: 2px solid #ffffff;
+    outline-offset: 3px;
+}
+
+.fr-feedback {
+    min-height: 1.6em;
+    margin-bottom: 0;
 }

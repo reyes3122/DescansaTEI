@@ -15,7 +15,7 @@
             <img src="DescansaTEI-Logo-.png" alt="Logo de DescansaTEI" class="logo">
             <h1>DescansaTEI</h1>
         </div>
-        <button class="ajustes" aria-label="Ajustes"><i class="bi bi-gear-fill"></i></button>
+        
     </header>
 
     <main>
@@ -207,7 +207,7 @@
                     </div>
                 </article>
 
-                <!-- Prueba 3: Memoria corta -->
+                <!-- Prueba 3: Memoria corta (juego: Memoriza las frutas) -->
                 <article class="prueba">
                     <div class="prueba-cabecera">
                         <div class="prueba-icono">
@@ -221,16 +221,13 @@
 
                     <h4 class="prueba-titulo">Memoria Corta</h4>
                     <p class="prueba-descripcion">
-                        Recuerda secuencias de símbolos para evaluar fatiga cognitiva.
+                        Memoriza la posición de las frutas para evaluar tu memoria visual a corto plazo.
                     </p>
 
                     <div class="prueba-pie">
                         <div class="prueba-ultima">
                             <span class="prueba-ultima-etiqueta">Última prueba</span>
-                            <span class="prueba-ultima-estado estado-alerta">
-                                Fatiga leve
-                                <span class="punto"></span>
-                            </span>
+                            <span class="prueba-ultima-estado" id="ultima-frutas">Sin datos</span>
                         </div>
                         <button type="button" class="prueba-boton" id="iniciar-memoria">Iniciar</button>
                     </div>
@@ -679,6 +676,57 @@
                 <p class="juego-texto" id="sec-res-mensaje"></p>
                 <p class="juego-nota">Estimación orientativa, no es un diagnóstico médico.</p>
                 <button type="button" class="prueba-boton juego-boton" id="sec-cerrar">Cerrar</button>
+            </section>
+        </div>
+    </div>
+
+    <!-- ==================== JUEGO: MEMORIZA LAS FRUTAS ==================== -->
+    <div class="juego-overlay" id="juego-frutas" role="dialog" aria-modal="true" aria-labelledby="fr-titulo" hidden>
+        <div class="juego-caja">
+            <button type="button" class="juego-cerrar" id="fr-salir" aria-label="Salir del juego">
+                <i class="bi bi-x-lg"></i>
+            </button>
+
+            <!-- Pantalla 1: instrucciones -->
+            <section id="fr-instrucciones">
+                <div class="juego-emoji" aria-hidden="true">🍓</div>
+                <h3 class="juego-titulo" id="fr-titulo">Memoriza las frutas</h3>
+                <p class="juego-texto" id="fr-texto-instrucciones"></p>
+                <button type="button" class="prueba-boton juego-boton" id="fr-comenzar">Comenzar</button>
+            </section>
+
+            <!-- Pantalla 2: memorizar -->
+            <section id="fr-memorizar" hidden>
+                <div class="sec-info">
+                    <span>Ronda <strong id="fr-ronda-m">1</strong></span>
+                </div>
+                <p class="juego-texto">Memoriza la posición de cada fruta.</p>
+                <div class="fr-fila" id="fr-fila"></div>
+                <div class="fr-barra"><div class="fr-barra-relleno" id="fr-barra"></div></div>
+            </section>
+
+            <!-- Pantalla 3: pregunta -->
+            <section id="fr-pregunta" hidden>
+                <div class="sec-info">
+                    <span>Ronda <strong id="fr-ronda-p">1</strong></span>
+                </div>
+                <p class="juego-titulo" id="fr-pregunta-texto" aria-live="polite"></p>
+                    <div class="fr-opciones" id="fr-opciones">
+                    <button type="button" class="fr-opcion" data-pos="0">1</button>
+                    <button type="button" class="fr-opcion" data-pos="1">2</button>
+                    <button type="button" class="fr-opcion" data-pos="2">3</button>
+                    <button type="button" class="fr-opcion" data-pos="3">4</button>
+                </div>
+                <p class="juego-texto fr-feedback" id="fr-feedback" aria-live="polite"></p>
+            </section>
+
+            <!-- Pantalla 4: resultado -->
+            <section id="fr-resultado" hidden>
+                <h3 class="juego-titulo" id="fr-res-titulo">Resultado</h3>
+                <p class="juego-texto" id="fr-res-datos"></p>
+                <p class="juego-texto" id="fr-res-mensaje"></p>
+                <p class="juego-nota">Estimación orientativa, no es un diagnóstico médico.</p>
+                <button type="button" class="prueba-boton juego-boton" id="fr-cerrar">Cerrar</button>
             </section>
         </div>
     </div>

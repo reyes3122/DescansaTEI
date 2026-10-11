@@ -637,6 +637,202 @@ document.addEventListener("keydown", (e) => {
     if (e.key === "Escape" && !juegoSec.hidden) cerrarSecuencia();
 });
 
+// ---------- Juego: memoriza las frutas (4 frutas) ----------
+const FR_FRUTAS = [
+    { emoji: "🍎", nombre: "la manzana", verbo: "estaba" },
+    { emoji: "🍊", nombre: "la naranja", verbo: "estaba" },
+    { emoji: "🍌", nombre: "el plátano", verbo: "estaba" },
+    { emoji: "🍓", nombre: "la fresa", verbo: "estaba" },
+];
+const FR_TIEMPOS = [6, 5, 4, 3]; // segundos de memorización por ronda (una ronda por valor)
+const FR_INDICES = FR_FRUTAS.map((_, i) => i); // [0, 1, 2, 3]
+
+const juegoFrutas = document.getElementById("juego-frutas");
+const frFila = document.getElementById("fr-fila");
+const frBarra = document.getElementById("fr-barra");
+const frOpciones = document.querySelectorAll(".fr-opcion");
+const frPreguntaEl = document.getElementById("fr-pregunta-texto");
+const frFeedback = document.getElementById("fr-feedback");
+const ultimaFrutas = document.getElementById("ultima-frutas");
+
+const pantallasFr = {
+    instrucciones: document.getElementById("fr-instrucciones"),
+    memorizar: document.getElementById("fr-memorizar"),
+    pregunta: document.getElementById("fr-pregunta"),
+    resultado: document.getElementById("fr-resultado"),
+};
+
+document.getElementById("fr-texto-instrucciones").textContent =
+    `Verás cuatro frutas en fila, cada una con su número. Memoriza dónde está cada una: ` +
+    `luego desaparecerán y te preguntaremos por la posición de una. Son ${FR_TIEMPOS.length} rondas ` +
+    `y cada vez tendrás menos tiempo para memorizar.`;
+
+let frToken = 0;
+let frRonda = 0;
+let frPreguntadas = [];   // fruta por la que se pregunta en cada ronda
+let frDispPrevia = null;  // disposición de la ronda anterior
+let frDisp = [];          // frDisp[posición] = índice de fruta
+let frObjetivo = 0;       // índice de la fruta preguntada
+let frAciertos = 0;
+let frErrores = 0;
+let frTiempos = [];
+let frInicioPregunta = 0;
+let frAceptando = false;
+
+function mezclar(lista) {
+    const copia = [...lista];
+    for (let i = copia.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [copia[i], copia[j]] = [copia[j], copia[i]];
+    }
+    return copia;
+}
+
+function mostrarPantallaFr(nombre) {
+    Object.entries(pantallasFr).forEach(([clave, pantalla]) => {
+        pantalla.hidden = clave !== nombre;
+    });
+}
+
+function setOpcionesFr(habilitadas) {
+    frAceptando = habilitadas;
+    frOpciones.forEach((b) => (b.disabled = !habilitadas));
+}
+
+function abrirFrutas() {
+    mostrarPantallaFr("instrucciones");
+    juegoFrutas.hidden = false;
+    document.body.style.overflow = "hidden";
+}
+
+function cerrarFrutas() {
+    frToken++; // cancela cualquier ronda en curso
+    frBarra.classList.remove("corriendo");
+    setOpcionesFr(false);
+    juegoFrutas.hidden = true;
+    document.body.style.overflow = "";
+}
+
+function comenzarFrutas() {
+    frToken++;
+    frRonda = 0;
+    frAciertos = 0;
+    frErrores = 0;
+    frTiempos = [];
+    frDispPrevia = null;
+    // Una fruta distinta por ronda
+    frPreguntadas = mezclar(FR_INDICES).slice(0, FR_TIEMPOS.length);
+    jugarRondaFr(frToken);
+}
+
+async function jugarRondaFr(token) {
+    frObjetivo = frPreguntadas[frRonda];
+
+    // Nueva disposición; la fruta preguntada no debe repetir su posición anterior
+    do {
+        frDisp = mezclar(FR_INDICES);
+    } while (frDispPrevia && frDisp.indexOf(frObjetivo) === frDispPrevia.indexOf(frObjetivo));
+    frDispPrevia = frDisp;
+
+    // Fase 1: memorizar
+    document.getElementById("fr-ronda-m").textContent = frRonda + 1;
+    frFila.innerHTML = frDisp
+        .map((f, i) => `<div class="fr-celda" aria-label="Posición ${i + 1}: ${FR_FRUTAS[f].nombre}">${FR_FRUTAS[f].emoji}<span>${i + 1}</span></div>`)
+        .join("");
+    mostrarPantallaFr("memorizar");
+
+    const segundos = FR_TIEMPOS[frRonda];
+    frBarra.classList.remove("corriendo");
+    void frBarra.offsetWidth; // reinicia la animación
+    frBarra.style.setProperty("--duracion", `${segundos}s`);
+    frBarra.classList.add("corriendo");
+
+    await esperar(segundos * 1000);
+    if (token !== frToken) return;
+
+    // Fase 2: pregunta
+    const fruta = FR_FRUTAS[frObjetivo];
+    document.getElementById("fr-ronda-p").textContent = frRonda + 1;
+    frPreguntaEl.textContent = `¿En qué posición ${fruta.verbo} ${fruta.nombre}?`;
+    frFeedback.textContent = "";
+    frOpciones.forEach((b) => b.classList.remove("correcta", "incorrecta"));
+    mostrarPantallaFr("pregunta");
+    frInicioPregunta = performance.now();
+    setOpcionesFr(true);
+}
+
+async function responderFr(posicion) {
+    if (!frAceptando) return;
+    setOpcionesFr(false);
+    const token = frToken;
+
+    frTiempos.push(performance.now() - frInicioPregunta);
+
+    const correcta = frDisp.indexOf(frObjetivo);
+    if (posicion === correcta) {
+        frAciertos++;
+        frOpciones[posicion].classList.add("correcta");
+        frFeedback.textContent = "¡Correcto!";
+    } else {
+        frErrores++;
+        frOpciones[posicion].classList.add("incorrecta");
+        frOpciones[correcta].classList.add("correcta");
+        frFeedback.textContent = `Era la posición ${correcta + 1}.`;
+    }
+
+    await esperar(1400);
+    if (token !== frToken) return;
+
+    frRonda++;
+    if (frRonda >= FR_TIEMPOS.length) {
+        terminarFrutas();
+    } else {
+        jugarRondaFr(token);
+    }
+}
+
+function clasificarFrutas(aciertos) {
+    if (aciertos === FR_TIEMPOS.length) {
+        return { texto: "Memoria óptima", alerta: false, mensaje: "Excelente: tu memoria visual a corto plazo está en buen estado." };
+    }
+    if (aciertos >= 2) {
+        return { texto: "Fatiga leve", alerta: true, mensaje: "Fallaste alguna posición. Una pausa corta te ayudará a recuperar la concentración." };
+    }
+    return { texto: "Fatiga alta", alerta: true, mensaje: "Te costó recordar las posiciones. Se recomienda descansar antes de seguir con tareas exigentes." };
+}
+
+function terminarFrutas() {
+    const resultado = clasificarFrutas(frAciertos);
+    const promedio = frTiempos.length
+        ? frTiempos.reduce((a, b) => a + b, 0) / frTiempos.length / 1000
+        : 0;
+
+    document.getElementById("fr-res-titulo").textContent = resultado.texto;
+    document.getElementById("fr-res-datos").textContent =
+        `Aciertos: ${frAciertos} de ${FR_TIEMPOS.length} · Errores: ${frErrores} · ` +
+        `Tiempo de respuesta promedio: ${promedio.toLocaleString("es", { maximumFractionDigits: 1 })} s`;
+    document.getElementById("fr-res-mensaje").textContent = resultado.mensaje;
+
+    // Actualiza "Última prueba" en la tarjeta de Memoria Corta
+    ultimaFrutas.innerHTML = `${resultado.texto}<span class="punto"></span>`;
+    ultimaFrutas.classList.toggle("estado-alerta", resultado.alerta);
+
+    mostrarPantallaFr("resultado");
+}
+
+frOpciones.forEach((boton) => {
+    boton.addEventListener("click", () => responderFr(Number(boton.dataset.pos)));
+});
+
+document.getElementById("iniciar-memoria").addEventListener("click", abrirFrutas);
+document.getElementById("fr-comenzar").addEventListener("click", comenzarFrutas);
+document.getElementById("fr-cerrar").addEventListener("click", cerrarFrutas);
+document.getElementById("fr-salir").addEventListener("click", cerrarFrutas);
+
+document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && !juegoFrutas.hidden) cerrarFrutas();
+});
+
 // ---------- Pintar el estado inicial (siempre al final) ----------
 renderSueno();
 renderBloques();
@@ -645,3 +841,4 @@ renderEstadisticas();
 renderAlertas();
 renderMedidor();
 setBotonesSec(false);
+setOpcionesFr(false);

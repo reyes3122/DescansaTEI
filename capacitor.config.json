@@ -1,0 +1,8 @@
+{
+  "appId": "com.descansatei.app",
+  "appName": "DescansaTEI",
+  "webDir": "www",
+  "server": {
+    "androidScheme": "https"
+  }
+}
