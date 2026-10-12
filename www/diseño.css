@@ -1,3 +1,10 @@
+:root {
+    --sat: env(safe-area-inset-top, 0px);
+    --sab: env(safe-area-inset-bottom, 0px);
+    --sal: env(safe-area-inset-left, 0px);
+    --sar: env(safe-area-inset-right, 0px);
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -8,13 +15,20 @@ body {
     background: #0a1120;
     color: #e6e9ff;
     font-family: "Inter", "Segoe UI", sans-serif;
+    min-height: 100vh;
+    min-height: 100dvh;
+    padding-left: var(--sal);
+    padding-right: var(--sar);
 }
 
 .encabezado {
     display: flex;
     align-items: center;
     justify-content: space-between; /* logo+nombre a la izquierda, ajustes a la derecha */
-    padding: 14px 20px;
+    padding-top: calc(14px + var(--sat));
+    padding-bottom: 14px;
+    padding-left: calc(20px + var(--sal));
+    padding-right: calc(20px + var(--sar));
     border-bottom: 1px solid rgba(255, 255, 255, 0.08); /* la línea tenue debajo */
 }
 
@@ -267,7 +281,9 @@ body {
 
 /* Deja espacio para que la barra no tape el contenido */
 main {
-    padding-bottom: calc(90px + env(safe-area-inset-bottom));
+    padding-left: var(--sal);
+    padding-right: var(--sar);
+    padding-bottom: calc(90px + var(--sab));
 }
 
 /* Solo se ve la vista activa */
@@ -293,7 +309,10 @@ main {
     right: 0;
     max-width: 420px;
     margin: 0 auto;
-    padding: 10px 12px calc(10px + env(safe-area-inset-bottom));
+    padding-top: 10px;
+    padding-left: calc(12px + var(--sal));
+    padding-right: calc(12px + var(--sar));
+    padding-bottom: calc(10px + var(--sab));
     display: flex;
     justify-content: space-around;
     background: rgba(14, 22, 42, 0.92);
@@ -1274,7 +1293,7 @@ main {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 20px;
+    padding: calc(20px + var(--sat)) calc(20px + var(--sar)) calc(20px + var(--sab)) calc(20px + var(--sal));
     background: rgba(5, 9, 20, 0.92);
     backdrop-filter: blur(6px);
 }

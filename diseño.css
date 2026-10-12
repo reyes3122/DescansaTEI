@@ -1,3 +1,10 @@
+:root {
+    --sat: env(safe-area-inset-top, 0px);
+    --sab: env(safe-area-inset-bottom, 0px);
+    --sal: env(safe-area-inset-left, 0px);
+    --sar: env(safe-area-inset-right, 0px);
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -8,13 +15,20 @@ body {
     background: #0a1120;
     color: #e6e9ff;
     font-family: "Inter", "Segoe UI", sans-serif;
+    min-height: 100vh;
+    min-height: 100dvh;
+    padding-left: var(--sal);
+    padding-right: var(--sar);
 }
 
 .encabezado {
     display: flex;
     align-items: center;
     justify-content: space-between; /* logo+nombre a la izquierda, ajustes a la derecha */
-    padding: 14px 20px;
+    padding-top: calc(14px + var(--sat));
+    padding-bottom: 14px;
+    padding-left: calc(20px + var(--sal));
+    padding-right: calc(20px + var(--sar));
     border-bottom: 1px solid rgba(255, 255, 255, 0.08); /* la línea tenue debajo */
 }
 
@@ -267,7 +281,9 @@ body {
 
 /* Deja espacio para que la barra no tape el contenido */
 main {
-    padding-bottom: calc(90px + env(safe-area-inset-bottom));
+    padding-left: var(--sal);
+    padding-right: var(--sar);
+    padding-bottom: calc(90px + var(--sab));
 }
 
 /* Solo se ve la vista activa */
@@ -293,7 +309,10 @@ main {
     right: 0;
     max-width: 420px;
     margin: 0 auto;
-    padding: 10px 12px calc(10px + env(safe-area-inset-bottom));
+    padding-top: 10px;
+    padding-left: calc(12px + var(--sal));
+    padding-right: calc(12px + var(--sar));
+    padding-bottom: calc(10px + var(--sab));
     display: flex;
     justify-content: space-around;
     background: rgba(14, 22, 42, 0.92);
@@ -1274,7 +1293,7 @@ main {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 20px;
+    padding: calc(20px + var(--sat)) calc(20px + var(--sar)) calc(20px + var(--sab)) calc(20px + var(--sal));
     background: rgba(5, 9, 20, 0.92);
     backdrop-filter: blur(6px);
 }
@@ -1523,3 +1542,124 @@ main {
     min-height: 1.6em;
     margin-bottom: 0;
 }
+
+
+/* ----------------INICIO PANTALLA DE CARGA (taza de café) UNIVERSE.IOO ---------------- */
+.pantalla-carga {
+    position: fixed;
+    inset: 0;
+    z-index: 300;                      /* por encima de los juegos (200) y la barra (100) */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #0a1120;
+    transition: opacity 0.5s ease;
+}
+
+.pantalla-carga.saliendo {
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* From Uiverse.io by esraaabdel-kareem (renombrado .loader -> .cafe-loader) */
+.cafe-loader {
+    width: 100px;
+    height: 80px;
+    position: relative;
+    display: flex;
+    justify-items: center;
+    align-items: center;
+    scale: 2;                          /* la taza original es muy pequeña para una pantalla completa */
+}
+
+.cafe-loader .cup {
+    position: absolute;
+    width: 25px;
+    height: 18px;
+    background-color: #fff;
+    border: 1px solid #2e2e2e;
+    z-index: 1;
+    border-radius: 2px 2px 10px 10px;
+    animation: cafe-expansion 6s infinite ease-in-out;
+    transform-origin: center;
+}
+
+.cafe-loader .cup::after {
+    content: "";
+    position: absolute;
+    top: -2px;
+    width: calc(100% - 2px);
+    height: 2px;
+    background: #fed59fca;
+    border: 1px solid #2e2e2ebe;
+    border-radius: 50%;
+}
+
+.cafe-loader .cup::before {
+    content: "";
+    position: absolute;
+    top: 15px;
+    width: calc(100% - 2px);
+    height: 4px;
+    background: #ffffff00;
+    border: 1px solid #2e2e2e;
+    border-top: none;
+    border-radius: 50%;
+    z-index: -1;
+}
+
+.cafe-loader .cup .cup-handle {
+    position: absolute;
+    width: 5px;
+    height: 10px;
+    background-color: #fff;
+    border: 1px solid #2e2e2e;
+    right: -5px;
+    top: 2px;
+    border-radius: 2px 10px 20px 2px;
+}
+
+.cafe-loader .cup .smoke {
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    width: 15px;
+    height: 25px;
+    background: rgba(185, 192, 255, 0.45);   /* humo en lavanda, acorde a tu paleta */
+    border-radius: 50%;
+    transform: translateX(-50%);
+    animation: cafe-humo 6s infinite ease-in-out;
+    filter: blur(8px);
+}
+
+.cafe-loader .cup .smoke.one   { animation-delay: 0s; }
+.cafe-loader .cup .smoke.two   { animation-delay: 1s; }
+.cafe-loader .cup .smoke.three { animation-delay: 2s; }
+
+.cafe-loader .load {
+    position: absolute;
+    font-size: 10px;
+    color: #c9cdf5;                    /* sobre fondo oscuro el texto negro no se vería */
+    opacity: 0.7;
+    top: 45%;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: -1;
+}
+
+@keyframes cafe-expansion {
+    0%   { width: 25px;  transform: translateX(0); }
+    40%  { width: 100%;  transform: translateX(0); }
+    80%  { width: 25px;  transform: translateX(64px); }
+    90%  { width: 100%;  transform: translateX(0); }
+    100% { width: 25px;  transform: translateX(0); }
+}
+
+@keyframes cafe-humo {
+    0%   { transform: translate(-50%, 0) scale(0.4); opacity: 0; }
+    30%  { opacity: 0.7; }
+    60%  { opacity: 0.4; }
+    100% { transform: translate(-50%, -120px) scale(1); opacity: 0; }
+}
+
+   /*--------------FIN PANTALLA DE CARGA UNIVERSE.IOO-------------- */

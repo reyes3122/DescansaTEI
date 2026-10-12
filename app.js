@@ -2,21 +2,19 @@
 const botones = document.querySelectorAll(".nav-item");
 const vistas = document.querySelectorAll(".vista");
 
+// Cambia de vista: activa la pestaña y la sección que corresponden
+function irAVista(destino) {
+    botones.forEach((b) => b.classList.toggle("activo", b.dataset.vista === destino));
+    vistas.forEach((v) => v.classList.toggle("activa", v.id === `vista-${destino}`));
+    window.scrollTo(0, 0); // vuelve arriba al cambiar de pantalla
+}
+
 botones.forEach((boton) => {
-    boton.addEventListener("click", () => {
-        const destino = boton.dataset.vista;
-
-        // Quita "activo" de todo
-        botones.forEach((b) => b.classList.remove("activo"));
-        vistas.forEach((v) => v.classList.remove("activa"));
-
-        // Activa el botón y la vista que corresponde
-        boton.classList.add("activo");
-        document.getElementById(`vista-${destino}`).classList.add("activa");
-
-        window.scrollTo(0, 0); // vuelve arriba al cambiar de pantalla
-    });
+    boton.addEventListener("click", () => irAVista(boton.dataset.vista));
 });
+
+// Inicio: botón "Realizar Prueba de Fatiga" -> vista Evaluación
+document.getElementById("ir-evaluacion").addEventListener("click", () => irAVista("evaluacion"));
 
 // ---------- Registro: horas de sueño ----------
 const SUENO_MIN = 0;
@@ -842,3 +840,19 @@ renderAlertas();
 renderMedidor();
 setBotonesSec(false);
 setOpcionesFr(false);
+
+// ---------- Pantalla de carga ----------
+const CARGA_MINIMA = 4000; // ms que se muestra como mínimo (ajústalo a tu gusto)
+const pantallaCarga = document.getElementById("pantalla-carga");
+const inicioCarga = performance.now();
+
+function ocultarCarga() {
+    pantallaCarga.classList.add("saliendo");              // inicia el fundido
+    setTimeout(() => (pantallaCarga.hidden = true), 500); // 500 ms = duración de la transición en el CSS
+}
+
+window.addEventListener("load", () => {
+    // Espera a que cargue todo, pero sin quitarla demasiado rápido
+    const faltante = Math.max(0, CARGA_MINIMA - (performance.now() - inicioCarga));
+    setTimeout(ocultarCarga, faltante);
+});
